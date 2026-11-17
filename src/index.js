@@ -1,15 +1,26 @@
-const express = require('express');
-const app = express();
-const port = 3000;
 
+require("dotenv/config");
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+const app = require("./app");
+const prisma = require("./prisma");
 
-app.listen(port, () => {
-  console.log(`Server is running  on http://localhost:${port}`);
-});
+const port = process.env.PORT || 3000;
+
+async function start() {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    console.log("Connected to PostgreSQL");
+
+    app.listen(port, "0.0.0.0", () => {
+      console.log(`Mawid is running on port ${port}`);
+    });
+  } catch (err) {
+    console.error(`Could not connect to PostgreSQL: ${err.message}`);
+    process.exit(1);
+  }
+}
+
+start();
 
 
 
