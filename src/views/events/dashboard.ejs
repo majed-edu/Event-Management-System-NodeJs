@@ -1,0 +1,21 @@
+<%- include("../partials/header") %>
+
+<h1>My events</h1>
+<p><a href="/events/new">Create event</a></p>
+
+<% if (events.length === 0) { %>
+  <p>You have not created an event yet.</p>
+<% } %>
+
+<ul>
+  <% events.forEach(event => { %>
+    <li>
+      <strong><%= event.title %></strong>
+      (<%= event._count.registrations %>/<%= event.capacity %>)
+      <a href="/events/<%= event.slug %>">Public link</a>
+      <a href="/events/<%= event.slug %>/attendees">Attendees</a>
+    </li>
+  <% }) %>
+</ul>
+
+<%- include("../partials/footer") %>
