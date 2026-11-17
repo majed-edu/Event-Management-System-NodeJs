@@ -1,26 +1,40 @@
 <%- include("../partials/header") %>
 
-<h1>Attendees: <%= event.title %></h1>
-<p><a href="/events/<%= event.slug %>">Public link</a></p>
-<p><%= event.registrations.length %>/<%= event.capacity %> registered</p>
+<div class="page-heading">
+  <div>
+    <span class="eyebrow">Attendee list</span>
+    <h1><%= event.title %></h1>
+    <p><%= event.registrations.length %>/<%= event.capacity %> registered</p>
+  </div>
+  <a class="button button-secondary" href="/events/<%= event.slug %>">View public page</a>
+</div>
 
 <% if (event.registrations.length === 0) { %>
-  <p>No registrations yet.</p>
+  <div class="empty-state">
+    <h2>No registrations yet</h2>
+    <p>New attendees will appear here automatically.</p>
+  </div>
 <% } else { %>
-  <table>
-    <thead>
-      <tr><th>Name</th><th>Email</th><th>Registered</th></tr>
-    </thead>
-    <tbody>
-      <% event.registrations.forEach(registration => { %>
+  <section class="table-card">
+    <table class="attendee-table">
+      <thead>
         <tr>
-          <td><%= registration.name %></td>
-          <td><%= registration.email %></td>
-          <td><%= registration.createdAt.toLocaleString() %></td>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Registered</th>
         </tr>
-      <% }) %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% event.registrations.forEach(registration => { %>
+          <tr>
+            <td><strong><%= registration.name %></strong></td>
+            <td><%= registration.email %></td>
+            <td><%= registration.createdAt.toLocaleString() %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </section>
 <% } %>
 
 <%- include("../partials/footer") %>

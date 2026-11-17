@@ -1,33 +1,39 @@
 <%- include("../partials/header") %>
 
-<h1>Create event</h1>
+<div class="page-heading">
+  <div>
+    <span class="eyebrow">New event</span>
+    <h1>Create an event</h1>
+    <p>Share the details and set your guest capacity.</p>
+  </div>
+</div>
 
-<% if (error) { %>
-  <p><%= error %></p>
-<% } %>
+<section class="form-card">
+  <% if (error) { %>
+    <div class="alert"><%= error %></div>
+  <% } %>
 
-<form action="/events" method="POST">
-  <div>
-    <label>Title:
-      <input type="text" name="title" maxlength="200" required>
-    </label>
-  </div>
-  <div>
-    <label>Location:
-      <input type="text" name="location" maxlength="255">
-    </label>
-  </div>
-  <div>
-    <label>Starts at:
-      <input type="datetime-local" name="startsAt" required>
-    </label>
-  </div>
-  <div>
-    <label>Capacity:
-      <input type="number" name="capacity" min="1" step="1" required>
-    </label>
-  </div>
-  <button type="submit">Create event</button>
-</form>
+  <form class="form-grid form-stack" action="/events" method="POST">
+    <div class="field field-wide">
+      <label for="event-title">Event title</label>
+      <input id="event-title" type="text" name="title" maxlength="200" placeholder="Community meetup" required>
+    </div>
+    <div class="field">
+      <label for="event-location">Location</label>
+      <input id="event-location" type="text" name="location" maxlength="255" placeholder="City or venue">
+    </div>
+    <div class="field">
+      <label for="event-starts">Starts at</label>
+      <input id="event-starts" type="datetime-local" name="startsAt" required>
+    </div>
+    <div class="field field-wide">
+      <label for="event-capacity">Capacity</label>
+      <input id="event-capacity" type="number" name="capacity" min="1" step="1" placeholder="50" required>
+    </div>
+    <div class="form-actions field-wide">
+      <button class="button" type="submit">Publish event</button>
+    </div>
+  </form>
+</section>
 
 <%- include("../partials/footer") %>

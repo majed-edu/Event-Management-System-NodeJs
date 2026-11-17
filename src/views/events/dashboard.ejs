@@ -1,21 +1,43 @@
 <%- include("../partials/header") %>
 
-<h1>My events</h1>
-<p><a href="/events/new">Create event</a></p>
+<div class="page-heading">
+  <div>
+    <span class="eyebrow">Organizer</span>
+    <h1>My events</h1>
+    <p>Track capacity and manage attendee lists.</p>
+  </div>
+  <a class="button" href="/events/new">Create event</a>
+</div>
 
 <% if (events.length === 0) { %>
-  <p>You have not created an event yet.</p>
+  <div class="empty-state">
+    <h2>No events yet</h2>
+    <p>Create your first event and share its registration link.</p>
+  </div>
+<% } else { %>
+  <section class="event-grid">
+    <% events.forEach(event => { %>
+      <article class="event-card">
+        <div>
+          <span class="eyebrow">Event</span>
+          <h2><%= event.title %></h2>
+          <p class="event-card-meta">
+            <%= event.location || "Location to be announced" %>
+          </p>
+          <p class="event-card-meta">
+            <%= event._count.registrations %>/<%= event.capacity %> seats registered
+          </p>
+          <div class="progress-bar">
+            <span style="width: <%= Math.min(100, event._count.registrations / event.capacity * 100) %>%"></span>
+          </div>
+        </div>
+        <div class="event-card-actions">
+          <a href="/events/<%= event.slug %>">Public page</a>
+          <a href="/events/<%= event.slug %>/attendees">Attendees</a>
+        </div>
+      </article>
+    <% }) %>
+  </section>
 <% } %>
-
-<ul>
-  <% events.forEach(event => { %>
-    <li>
-      <strong><%= event.title %></strong>
-      (<%= event._count.registrations %>/<%= event.capacity %>)
-      <a href="/events/<%= event.slug %>">Public link</a>
-      <a href="/events/<%= event.slug %>/attendees">Attendees</a>
-    </li>
-  <% }) %>
-</ul>
 
 <%- include("../partials/footer") %>

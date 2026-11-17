@@ -1,34 +1,46 @@
 <%- include("../partials/header") %>
 
-<h1><%= event.title %></h1>
-<p><%= event.location || "Location to be announced" %></p>
-<p>Starts: <%= event.startsAt.toLocaleString() %></p>
-<p><%= registeredCount %>/<%= event.capacity %> seats registered</p>
-
-<% if (registered) { %>
-  <p>Registration successful.</p>
-<% } %>
-
-<% if (error) { %>
-  <p><%= error %></p>
-<% } %>
-
-<% if (registeredCount < event.capacity) { %>
-  <form action="/events/<%= event.slug %>/register" method="POST">
-    <div>
-      <label>Name:
-        <input type="text" name="name" maxlength="100" required>
-      </label>
+<section class="public-layout">
+  <article class="detail-card">
+    <span class="eyebrow">Public event</span>
+    <h1><%= event.title %></h1>
+    <div class="detail-meta">
+      <span><strong>Location:</strong> <%= event.location || "To be announced" %></span>
+      <span><strong>Starts:</strong> <%= event.startsAt.toLocaleString() %></span>
+      <span><strong>Seats:</strong> <%= registeredCount %>/<%= event.capacity %></span>
     </div>
-    <div>
-      <label>Email:
-        <input type="email" name="email" maxlength="255" required>
-      </label>
+
+    <div class="progress-bar">
+      <span style="width: <%= Math.min(100, registeredCount / event.capacity * 100) %>%"></span>
     </div>
-    <button type="submit">Register</button>
-  </form>
-<% } else { %>
-  <p>Sorry, this event is full.</p>
-<% } %>
+
+    <div class="registration-panel">
+      <% if (registered) { %>
+        <div class="success-box">Registration successful. We look forward to seeing you.</div>
+      <% } %>
+
+      <% if (error) { %>
+        <div class="alert"><%= error %></div>
+      <% } %>
+
+      <% if (registeredCount < event.capacity) { %>
+        <h2>Reserve your spot</h2>
+        <form class="form-stack" action="/events/<%= event.slug %>/register" method="POST">
+          <div class="field">
+            <label for="registration-name">Name</label>
+            <input id="registration-name" type="text" name="name" maxlength="100" required>
+          </div>
+          <div class="field">
+            <label for="registration-email">Email</label>
+            <input id="registration-email" type="email" name="email" maxlength="255" required>
+          </div>
+          <button class="button" type="submit">Register</button>
+        </form>
+      <% } else { %>
+        <div class="alert">Sorry, this event is full.</div>
+      <% } %>
+    </div>
+  </article>
+</section>
 
 <%- include("../partials/footer") %>

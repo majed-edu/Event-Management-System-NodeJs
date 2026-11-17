@@ -1,28 +1,29 @@
 
 <%- include("partials/header") %>
 
-<h1>Log in</h1>
+<section class="auth-layout">
+  <div class="auth-panel">
+    <span class="eyebrow">Welcome back</span>
+    <h1>Log in to Mawid</h1>
+    <p class="muted">Continue managing your events and registrations.</p>
 
-<% if (error) { %>
-  <p><%= error %></p>
-<% } %>
+    <% if (error) { %>
+      <div class="alert"><%= error %></div>
+    <% } %>
 
-<form action="/login" method="POST">
-  <div>
-    <label>
-      Email:
-      <input type="email" name="email" required>
-    </label>
+    <form class="form-stack" action="/login" method="POST">
+      <div class="field">
+        <label for="login-email">Email</label>
+        <input id="login-email" type="email" name="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="login-password">Password</label>
+        <input id="login-password" type="password" name="password" autocomplete="current-password" required>
+      </div>
+      <button class="button button-full" type="submit">Log in</button>
+    </form>
+    <p class="form-switch">New to Mawid? <a href="/signup">Create an account</a></p>
   </div>
-
-  <div>
-    <label>
-      Password:
-      <input type="password" name="password" required>
-    </label>
-  </div>
-
-  <button type="submit">Log in</button>
-</form>
+</section>
 
 <%- include("partials/footer") %>
